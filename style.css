@@ -33,7 +33,7 @@
     color: hsla(0, 0%, 100%, 0.877);
 }
 .text_font{
-    font-family: "generic_text"
+    font-family: "generic_text";
 }
 header{
     position: sticky;
@@ -44,14 +44,16 @@ header{
 .Videos{
     float: left;
     border-radius: 15px;
-    margin-right: 3px;
+    margin-right: 50px;
+    margin-bottom: 40px;
+    margin-left: 9.2%;
 }
 .pagination{
-    text-align: center;
     font-family: "title_MC";
     font-size: 25px;
-    margin-top: 39%;
-    position: static;
+    top: 78%;
+    position: absolute;
+    left: 37%;
 }
 .pagination a{
     color:hsl(323, 100%, 50%);
@@ -136,4 +138,12 @@ header{
     font-family: "title_MC";
     margin-left: 5%;
     font-size: 50px;
+}
+.info{
+    color: white;
+    font-family: "generic_text";
+    font-size: 25px;
+    background-color: hsla(16, 73%, 3%, 0.968);
+    border-radius: 10px;
+    padding: 10px;
 }
