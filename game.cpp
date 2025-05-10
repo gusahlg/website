@@ -13,8 +13,8 @@ int foodPositionY = 5;
 int foodPositionX = 5;
 int snakePositionY = 1;
 int snakePositionX = 1;
-int previouspositionsY[10];
-int previouspositionsX[10];
+int previouspositionsY[130];
+int previouspositionsX[130];
 int ix = 0;
 void gameUpdate(){
     system("cls");
@@ -27,15 +27,22 @@ void gameUpdate(){
             else if(foodPositionY == i && foodPositionX == j){
                 std::cout << "| " << food << " ";
             }
-            // I have to fix here. The index for both have to be same.
-            else if(std::find(std::begin(previouspositionsY), std::end(previouspositionsY), i) != std::end(previouspositionsY) && std::find(std::begin(previouspositionsX), std::end(previouspositionsX), j) != std::end(previouspositionsX)){
-                std::cout << "| " << snake << " ";
-            }
             else{
-                std::cout << "|   ";
+                bool onTail = false;
+                for(int k = 0; k < numberofSnake; ++k){
+                    if(previouspositionsY[k] == i && previouspositionsX[k] == j){
+                        onTail = true;
+                        break;
+                    }
+                    if(previouspositionsY[k] == snakePositionY && previouspositionsX[k] == snakePositionX){
+                        gameRunning = false;
+                    }
+                }
+                if(onTail) std::cout << "| " << snake << " ";
+                else std::cout << "|   ";
             }
         }
-        std::cout << '\n';
+    std::cout << '\n';
     }
 }
 int main(){
@@ -58,11 +65,10 @@ int main(){
                 case 'a': --snakePositionX; gameUpdate(); break;
                 case 'd': ++snakePositionX; gameUpdate(); break;
             }
-            // New plan put new inputs in a overwriting array based on a length equal to number of foods eaten, then put the entire array into another array 1 by one. 
             previouspositionsY[ix] = previousY;
             previouspositionsX[ix] = previousX;
             ++ix;
-            if(ix > numberofSnake){
+            if(ix > numberofSnake - 1){
                 ix = 0;
             }
             gameUpdate();
@@ -76,7 +82,7 @@ int main(){
             ++numberofSnake;
             gameUpdate();
         }
-        Sleep(200);
+        Sleep(250);
     }
     return 0;
 }
