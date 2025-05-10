@@ -13,8 +13,9 @@ int foodPositionY = 5;
 int foodPositionX = 5;
 int snakePositionY = 1;
 int snakePositionX = 1;
-int* previouspositionsY[50];
-int* previouspositionsX[50];
+int previouspositionsY[10];
+int previouspositionsX[10];
+int ix = 0;
 void gameUpdate(){
     system("cls");
     std::cout << "Hello " << username << "!\n";
@@ -26,7 +27,8 @@ void gameUpdate(){
             else if(foodPositionY == i && foodPositionX == j){
                 std::cout << "| " << food << " ";
             }
-            if(std::find(std::begin(previouspositionsY), std::end(previouspositionsY), i) != std::end(previouspositionsY) && std::find(std::begin(previouspositionsX), std::end(previouspositionsX), j) != std::end(previouspositionsX)){
+            // I have to fix here. The index for both have to be same.
+            else if(std::find(std::begin(previouspositionsY), std::end(previouspositionsY), i) != std::end(previouspositionsY) && std::find(std::begin(previouspositionsX), std::end(previouspositionsX), j) != std::end(previouspositionsX)){
                 std::cout << "| " << snake << " ";
             }
             else{
@@ -56,6 +58,14 @@ int main(){
                 case 'a': --snakePositionX; gameUpdate(); break;
                 case 'd': ++snakePositionX; gameUpdate(); break;
             }
+            // New plan put new inputs in a overwriting array based on a length equal to number of foods eaten, then put the entire array into another array 1 by one. 
+            previouspositionsY[ix] = previousY;
+            previouspositionsX[ix] = previousX;
+            ++ix;
+            if(ix > numberofSnake){
+                ix = 0;
+            }
+            gameUpdate();
         }
         if(snakePositionY <= 0 || snakePositionY >= 14 || snakePositionX >= 11 || snakePositionX <= 0){
             gameRunning = false;
@@ -63,13 +73,10 @@ int main(){
         if(snakePositionX == foodPositionX && snakePositionY == foodPositionY){
             foodPositionY = (rand() % 13) + 1;
             foodPositionX = (rand() % 10) + 1;
-        //Add so that previous positions are documented. I am stupid the values put into the array are not changing and following the snake.
-            previouspositionsY[numberofSnake] = snakePositionY;
-            previouspositionsX[numberofSnake] = snakePositionX;
-            numberofSnake++;
+            ++numberofSnake;
             gameUpdate();
         }
-        Sleep(250);
+        Sleep(200);
     }
     return 0;
 }
